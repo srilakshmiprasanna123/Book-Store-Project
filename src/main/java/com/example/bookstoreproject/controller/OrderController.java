@@ -13,11 +13,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("order")
+@RequestMapping("/order")
+@CrossOrigin
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    //create order data
+
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> insertOrder(@Valid @RequestBody OrderDTO orderdto){
         String orderData = orderService.insert(orderdto);
@@ -25,7 +26,7 @@ public class OrderController {
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
-    //get all order details
+
     @GetMapping("/getallorders/{token}")
     public ResponseEntity<ResponseDTO> getAllOrder(@PathVariable String token){
         List<OrderData> orderData = orderService.getAllOrder(token);
@@ -33,15 +34,15 @@ public class OrderController {
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
 
-    //get order details by id
-    @GetMapping("get/{token}")
+
+    @GetMapping("/get/{token}")
     public ResponseEntity<ResponseDTO> getOrderById(@PathVariable String token){
         OrderData orderData = orderService.getOrderById(token);
         ResponseDTO responseDTO = new ResponseDTO("get call successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
 
-    //cancel order by orderid and userid
+
     @PutMapping("/cancelorder/{token}/{userId}")
     public ResponseEntity<ResponseDTO> cancelOrderById(@PathVariable String token,@PathVariable int userId){
         OrderData orderData = orderService.cancelOrderById(token,userId);

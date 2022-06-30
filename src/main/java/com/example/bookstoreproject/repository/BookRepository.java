@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookData,Integer> {
-    @Query(value = "select * from book_data where book_name= book_name",nativeQuery=true)
+    @Query(value = "select * from book_data where book_name= :bookName",nativeQuery=true)
     List<BookData> findBookByName(String bookName);
 
     @Query(value = "select * from book_data where auther_name=auther_name",nativeQuery=true)

@@ -14,11 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("cart")
+@CrossOrigin
 public class CartController {
     @Autowired
     private ICartService iCartService;
 
-    //get all cart details
+
     @GetMapping("/getall/{token}")
     public ResponseEntity<ResponseDTO> getAllCart(@PathVariable String token){
         List<CartData> cartData=iCartService.getAllCart(token);
@@ -26,7 +27,7 @@ public class CartController {
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
-    //get cart details by id
+
     @GetMapping("give/{token}")
     public ResponseEntity<ResponseDTO> getCartById(@PathVariable String token){
         CartData cartData=iCartService.getCartById(token);
@@ -34,7 +35,7 @@ public class CartController {
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
-    //create cart details
+
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addCart(@Valid @RequestBody CartDTO cartDTO){
         String cartData =iCartService.insert(cartDTO);
@@ -42,7 +43,7 @@ public class CartController {
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
-    //update cart details by id
+
     @PutMapping("/update/{token}")
     public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable String token,@Valid @RequestBody CartDTO cartDTO){
         CartData cartData=iCartService.updateCartById(token,cartDTO);
@@ -50,7 +51,7 @@ public class CartController {
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
-    //delete cart details by id
+
     @DeleteMapping("/cartdelete/{token}")
     public ResponseEntity<ResponseDTO> deleteCartData(@PathVariable String token){
         iCartService.deleteCartData(token);

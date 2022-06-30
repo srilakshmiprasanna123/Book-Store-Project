@@ -18,7 +18,7 @@ public class BookService implements IBookService{
     @Autowired
     private TokenUtil util;
 
-    //save book details to repo
+
     @Override
     public String insert(BookDTO bookDTO) {
         BookData bookData=new BookData(bookDTO);
@@ -27,33 +27,38 @@ public class BookService implements IBookService{
         return token;
     }
 
-    //get all bookdata by findAll method
+
     @Override
-    public List<BookData> getAllBooks(String token) {
-        int id=util.decodeToken(token);
-        Optional<BookData> bookData=bookRepository.findById(id);
-        if (bookData.isPresent()){
+    public List<BookData> getAllBooks() {
+//
+//        Optional<BookData> bookData=bookRepository.findById(id);
+//        if (bookData.isPresent()){
             List<BookData> listOfBooks=bookRepository.findAll();
             return listOfBooks;
-        }else {
-            System.out.println("Exception ...Token not found!");
-            return null;
-        }
+//        }else {
+//            System.out.println("Exception ...Token not found!");
+//            return null;
+//        }
     }
 
-    //get bookdata by id
+//    @Override
+//    public Integer getBooksById() {
+//        return null;
+//    }
+
+
     @Override
-    public BookData getBooksById(String token) {
-        int id=util.decodeToken(token);
-        Optional<BookData> bookData=bookRepository.findById(id);
+    public Optional<BookData> getBooksById(int id) {
+//        int id=util.decodeToken(token);
+        Optional<BookData> bookData = bookRepository.findById(id);
         if (bookData.isPresent()){
-            return bookData.get();
+            return bookData;
         }else {
             throw new BookStoreException("Exception with id"+id+"does not exist!!");
         }
     }
 
-    //get bookdata by bookname
+
     @Override
     public List<BookData> getBooksByName(String bookName) {
         List<BookData> findBook=bookRepository.findBookByName(bookName);
@@ -63,7 +68,7 @@ public class BookService implements IBookService{
         return findBook;
     }
 
-    //get bookdata by authername
+
     @Override
     public List<BookData> getBooksByAutherName(String autherName) {
         List<BookData> findBook=bookRepository.findBookByAutherName(autherName);
@@ -73,10 +78,10 @@ public class BookService implements IBookService{
         return findBook;
     }
 
-    //update bookdata by id
+
     @Override
-    public BookData updateBooksById(String token, BookDTO bookDTO) {
-        int id=util.decodeToken(token);
+    public BookData updateBooksById(int id, BookDTO bookDTO) {
+//        int id=util.decodeToken(id);
         Optional<BookData> bookData=bookRepository.findById(id);
         if (bookData.isPresent()){
             BookData updateData=new BookData(id,bookDTO);
@@ -87,7 +92,7 @@ public class BookService implements IBookService{
         }
     }
 
-    //update bookdata by quantity
+
     @Override
     public BookData updataBooksByQuantity(String token, int quantity) {
         int id=util.decodeToken(token);
@@ -102,22 +107,27 @@ public class BookService implements IBookService{
         }
     }
 
-    //sort bookdata in ascending order
+
     @Override
     public List<BookData> sortBookDataAsc() {
         return bookRepository.sortBookDataAsc();
     }
 
-    //sort bookdata in descending order
+
     @Override
     public List<BookData> sortBookDataDesc() {
         return bookRepository.sortBookDataDesc();
     }
 
-    //delete bookdata by id from repository
+//    @Override
+//    public void deletebookData(String token) {
+//
+//    }
+
+
     @Override
-    public void deletebookData(String token) {
-        int id=util.decodeToken(token);
+    public void deletebookData(int id) {
+//        int id=util.decodeToken(token);
         Optional<BookData> bookData =bookRepository.findById(id);
         if (bookData.isPresent()) {
             bookRepository.deleteById(id);

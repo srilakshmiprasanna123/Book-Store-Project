@@ -31,7 +31,7 @@ public class OrderService implements IOrderService {
     @Autowired
     private EmailSenderService mailService;
 
-    //save  order details in repository  method.
+
     @Override
     public String insert(OrderDTO orderDTO) {
         Optional<BookData> book = bookRepository.findById(orderDTO.getBookId());
@@ -45,7 +45,7 @@ public class OrderService implements IOrderService {
                 OrderData newOrder = new OrderData(totalPrice, orderDTO.getQuantity(), orderDTO.getAddress(), book.get(), user.get(), orderDTO.isCancel());
                 orderRepository.save(newOrder);
                 String token = util.createToken(newOrder.getOrderId());
-                mailService.sendEmail(newOrder.getUserRegistrationData().getEmail(), "Test Email", "Registered SuccessFully, hii: "
+                mailService.sendEmail(newOrder.getUserRegistrationData().getEmail(), "Test Email", "Order Creatred SuccessFully "
                         +newOrder.getOrderId()+"Please Click here to get data-> "
                         +"http://localhost:8080/order/insert/"+token);
                 log.info("Order record inserted successfully");
@@ -58,8 +58,7 @@ public class OrderService implements IOrderService {
         }
     }
 
-    //get all order details method
-    //return type is list
+
     @Override
     public List<OrderData> getAllOrder(String token) {
         Integer id=util.decodeToken(token);
@@ -67,7 +66,7 @@ public class OrderService implements IOrderService {
         if(orderData.isPresent()) {
             List<OrderData> listOrderData=orderRepository.findAll();
             log.info("ALL order records retrieved successfully");
-            mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
+            mailService.sendEmail("prasanna98ece.rymec@gmail.com", "Email", "Get your data with this token "
                     +orderData.get().getUserRegistrationData().getEmail()+"Please Click here to get all data-> "
                     +"http://localhost:8080/order/get/"+token);
             return listOrderData;
@@ -77,14 +76,14 @@ public class OrderService implements IOrderService {
         }
     }
 
-    //get all order details by id
+
     @Override
     public OrderData getOrderById(String token) {
         Integer id=util.decodeToken(token);
         Optional<OrderData> orderData = orderRepository.findById(id);
         if (orderData.isPresent()) {
             log.info("Order record retrieved successfully for id " + id);
-            mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
+            mailService.sendEmail("prasanna98ece.rymec@gmail.com", " Email", "Get your data with this token "
                     +orderData.get().getUserRegistrationData().getEmail()+"Please Click here to get data-> "
                     +"http://localhost:8080/order/get/"+token);
             return orderData.get();
@@ -93,17 +92,17 @@ public class OrderService implements IOrderService {
         }
     }
 
-    //cancel order by orderid and userid
+
     @Override
     public OrderData cancelOrderById(String token, int userId) {
-        //orderid,userid
+
         Integer id=util.decodeToken(token);
         Optional<OrderData> order = orderRepository.findById(id);
         Optional<UserRegistrationData> user = userRegistrationRepository.findById(userId);
         if (order.isPresent() && user.isPresent()) {
             order.get().setCancel(true);
             orderRepository.save(order.get());
-            mailService.sendEmail(order.get().getUserRegistrationData().getEmail(), "Test Email", "canceled order SuccessFully, hii: "
+            mailService.sendEmail(order.get().getUserRegistrationData().getEmail(), "Test Email", "canceled order SuccessFully "
                     +order.get().getOrderId()+"Please Click here to get data of updated id-> "
                     +"http://localhost:8080/order/cancel/"+token);
             return order.get();

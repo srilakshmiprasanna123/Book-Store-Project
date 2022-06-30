@@ -16,35 +16,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
+@CrossOrigin
 public class UserRegistrationController {
     @Autowired
     private IUserRegistrationService iUserRegistrationService;
 
-    //get all users details
-    @GetMapping("/get/{token}")
-    public ResponseEntity<ResponseDTO> getAllUsers(@PathVariable String token){
-        List<UserRegistrationData> userRegistrationData =iUserRegistrationService.getAllUsers(token);
-        ResponseDTO responseDTO=new ResponseDTO("Get call Success",userRegistrationData);
-        return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
-    }
-
-    //get users details by id
-    @GetMapping("/{token}")
-    public ResponseEntity<ResponseDTO> getUserById(@PathVariable String token){
-        UserRegistrationData userRegistrationData=iUserRegistrationService.getUserById(token);
-        ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",userRegistrationData);
-        return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
-    }
-
-    //get users details by email
-    @GetMapping("email/{token}")
-    public ResponseEntity<ResponseDTO> getUserByEmail(@PathVariable String token){
-        List<UserRegistrationData> userRegistrationData=iUserRegistrationService.getUserByEmail(token);
-        ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",userRegistrationData);
-        return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
-    }
-
-    //create users details
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addUserRegistration(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO){
         String userRegistrationData =iUserRegistrationService.createUser(userRegistrationDTO);
@@ -52,7 +28,34 @@ public class UserRegistrationController {
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
-    //user must be login through email and password
+
+    @GetMapping("/getall/{token}")
+    public ResponseEntity<ResponseDTO> getAllUsers(@PathVariable String token){
+        List<UserRegistrationData> userRegistrationData =iUserRegistrationService.getAllUsers(token);
+        ResponseDTO responseDTO=new ResponseDTO("Get call Success",userRegistrationData);
+        return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getby/{token}")
+    public ResponseEntity<ResponseDTO> getUserById(@PathVariable String token){
+        UserRegistrationData userRegistrationData=iUserRegistrationService.getUserById(token);
+        ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",userRegistrationData);
+        return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+    }
+
+
+    @GetMapping("email/{token}")
+    public ResponseEntity<ResponseDTO> getUserByEmail(@PathVariable String token){
+        List<UserRegistrationData> userRegistrationData=iUserRegistrationService.getUserByEmail(token);
+        ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",userRegistrationData);
+        return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+    }
+
+
+
+
+
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO){
         Optional<UserRegistrationData> userRegistrationData=iUserRegistrationService.login(loginDTO);
@@ -65,13 +68,11 @@ public class UserRegistrationController {
         }
     }
 
-    //update Users details
+
     @PutMapping("/update/{token}")
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable String token,@Valid @RequestBody UserRegistrationDTO userRegistrationDTO){
         UserRegistrationData userRegistrationData=iUserRegistrationService.updateUser(token,userRegistrationDTO);
         ResponseDTO responseDTO=new ResponseDTO("updated user data succesfully",userRegistrationData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
-
-
 }

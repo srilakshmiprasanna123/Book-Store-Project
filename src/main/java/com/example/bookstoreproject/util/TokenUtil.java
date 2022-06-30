@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TokenUtil {
-    private static final String TOKEN_SECRET = "Akshata";
+    private static final String TOKEN_SECRET = "Lucky";
 
     public  String createToken(int id)   {
         try {
-            //to set algorithm
+
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
 
             String token = JWT.create()
@@ -24,7 +24,7 @@ public class TokenUtil {
             return token;
         } catch (JWTCreationException exception) {
             exception.printStackTrace();
-            //log Token Signing Failed
+
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class TokenUtil {
     public int decodeToken(String token)
     {
         int userid;
-        //for verification algorithm
+
         Verification verification = null;
         try {
             verification = JWT.require(Algorithm.HMAC256(TOKEN_SECRET));
@@ -42,7 +42,7 @@ public class TokenUtil {
             e.printStackTrace();
         }
         JWTVerifier jwtverifier=verification.build();
-        //to decode token
+
         DecodedJWT decodedjwt=jwtverifier.verify(token);
 
         Claim claim=decodedjwt.getClaim("user_id");

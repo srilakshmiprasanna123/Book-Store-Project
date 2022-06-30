@@ -22,7 +22,7 @@ public class UserRegistrationService implements IUserRegistrationService{
     @Autowired
     private TokenUtil util;
 
-    //save the userregistration details in repository
+
     @Override
     public String createUser(UserRegistrationDTO userRegistrationDTO) {
         UserRegistrationData userRegistrationData= new UserRegistrationData(userRegistrationDTO);
@@ -34,14 +34,14 @@ public class UserRegistrationService implements IUserRegistrationService{
         return token;
     }
 
-    //pass path variable as token and get all userregistration details from repository.
+
     @Override
     public List<UserRegistrationData> getAllUsers(String token) {
         int id=util.decodeToken(token);
         Optional<UserRegistrationData> isContactPresent=userRegistrationRepository.findById(id);
         if(isContactPresent.isPresent()) {
             List<UserRegistrationData> listAddressBook=userRegistrationRepository.findAll();
-            mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
+            mailService.sendEmail("prasanna98ece.rymec@gmail.com", "Test Email", "Get your data with this token, hii: "
                     +isContactPresent.get().getFirstName()+"Please Click here to get data-> "
                     +"http://localhost:8081/user/get/"+token);
             return listAddressBook;
@@ -51,13 +51,13 @@ public class UserRegistrationService implements IUserRegistrationService{
         }
     }
 
-    //get userregistration details from repository by id .
+
     @Override
     public UserRegistrationData getUserById(String token) {
         int id=util.decodeToken(token);
         Optional<UserRegistrationData> getUser=userRegistrationRepository.findById(id);
         if(getUser.isPresent()){
-            mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
+            mailService.sendEmail("prasanna98ece.rymec@gmail.com", "Test Email", "Get your data with this token, hii: "
                     +getUser.get().getEmail()+"Please Click here to get data-> "
                     +"http://localhost:8080/user/get/"+token);
             return getUser.get();
@@ -67,7 +67,7 @@ public class UserRegistrationService implements IUserRegistrationService{
         }
     }
 
-    //get userregistration details from repository by email
+
     @Override
     public List<UserRegistrationData> getUserByEmail(String token) {
         List<UserRegistrationData> findEmail=userRegistrationRepository.findByEmail(token);
@@ -77,7 +77,7 @@ public class UserRegistrationService implements IUserRegistrationService{
         return findEmail;
     }
 
-    //update userregistration details by id
+
     @Override
     public UserRegistrationData updateUser(String token, UserRegistrationDTO userRegistrationDTO) {
         Integer id=util.decodeToken(token);
@@ -93,7 +93,7 @@ public class UserRegistrationService implements IUserRegistrationService{
         throw new BookStoreException("User Details for id not found");
     }
 
-    //user has to login through email and password
+
     @Override
     public Optional<UserRegistrationData> login(LoginDTO loginDTO) {
         Optional<UserRegistrationData> userRegistrationData=userRegistrationRepository.findByEmailAndPassword(loginDTO.getEmail(),loginDTO.getPassword());

@@ -30,7 +30,7 @@ public class CartService implements ICartService{
     @Autowired
     private EmailSenderService mailService;
 
-    //save cart details in repository method
+
     @Override
     public String insert(CartDTO cartDTO) {
         Optional<BookData> bookData = bookRepository.findById(cartDTO.getBookId());
@@ -45,7 +45,7 @@ public class CartService implements ICartService{
         }
     }
 
-    //get all cart details method , return type is list
+
     @Override
     public List<CartData> getAllCart(String token) {
         int id = util.decodeToken(token);
@@ -60,7 +60,7 @@ public class CartService implements ICartService{
         }
     }
 
-    //get cart details by id
+
     @Override
     public CartData getCartById(String token) {
         int id = util.decodeToken(token);
@@ -73,7 +73,7 @@ public class CartService implements ICartService{
         }
     }
 
-    //update cart details by id
+
     @Override
     public CartData updateCartById(String token, CartDTO cartDTO) {
         int id = util.decodeToken(token);
@@ -96,7 +96,7 @@ public class CartService implements ICartService{
         }
     }
 
-    //delete cart details by id method
+
     @Override
     public void deleteCartData(String token) {
         int id = util.decodeToken(token);
